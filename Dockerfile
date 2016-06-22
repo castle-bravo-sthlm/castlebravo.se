@@ -1,4 +1,4 @@
-FROM openshift/nodejs-010-centos7
+FROM node
 COPY ./package.json /app/
 COPY ./packages /app/packages
 WORKDIR /app
