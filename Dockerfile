@@ -1,4 +1,4 @@
-FROM node
+FROM c2products/node
 COPY ./package.json /app/
 COPY ./packages /app/packages
 WORKDIR /app
