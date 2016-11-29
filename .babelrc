@@ -1,0 +1,7 @@
+/* for server code only, check rollup.config.js for client configuration*/
+{
+  "presets": [[ "es2015" ]],
+  "plugins": [
+    "transform-object-rest-spread"
+  ]
+}

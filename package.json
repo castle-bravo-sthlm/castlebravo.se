@@ -1,44 +1,49 @@
 {
-  "name": "castlebravo.se",
+  "name": "cb-yo",
   "version": "0.0.1",
-  "private": true,
-  "main": "index.js",
+  "description": "",
+  "main": "dist/cb-yo.js",
   "scripts": {
-    "dev": "budo index.js:bundle.js --dir public --live --pushstate",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify index.js | uglifyjs -cm > public/bundle.js",
-    "prepublish": "npm run build",
-    "start": "pushstate-server public 9966"
+    "build:client": "rollup -c",
+    "build:server": "cpx 'src/server/**/*' dist/server",
+    "build:static": "cpx 'src/client/static/**/*' dist/www",
+    "dev": "NODE_ENV=dev node-esml src/server/index.js | garnish",
+    "run:prod": "node-esml dist/server/index.js | garnish",
+    "start": "npm-run-all build:* run:prod"
   },
-  "author": "",
-  "license": "ISC",
-  "browserify": {
-    "transform": [
-      "babelify",
-      "lessify"
-    ]
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andrelillvede/cb-yo"
   },
-  "babel": {
-    "presets": [
-      "es2015-custom",
-      "stage-0"
-    ],
-    "plugins": [
-      "transform-decorators-legacy"
-    ]
-  },
+  "keywords": [],
+  "homepage": "https://github.com/andrelillvede/cb-yo",
   "dependencies": {
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.17.0",
+    "babel-plugin-external-helpers": "^6.8.0",
+    "babel-plugin-transform-object-rest-spread": "^6.19.0",
     "babel-plugin-transform-react-jsx": "^6.8.0",
-    "babel-polyfill": "^6.9.0",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-es2015-custom": "./packages/babel-preset-es2015-custom",
-    "babel-preset-stage-0": "^6.5.0",
-    "babelify": "^7.3.0",
-    "budo": "^8.2.2",
-    "hyperscript": "^1.4.7",
-    "lessify": "^1.0.1",
-    "pushstate-server": "^1.8.1",
-    "uglify-js": "^2.6.2"
+    "babel-preset-es2015": "^6.16.0",
+    "bole": "^3.0.2",
+    "chokidar": "^1.6.1",
+    "compression": "^1.6.2",
+    "cpx": "^1.5.0",
+    "finalhandler": "^0.5.1",
+    "garnish": "^5.2.0",
+    "livereload": "^0.6.0",
+    "node-es-module-loader": "^0.2.0",
+    "npm-run-all": "^3.1.1",
+    "rollup": "^0.36.0",
+    "rollup-plugin-babel": "^2.6.1",
+    "rollup-plugin-commonjs": "^5.0.5",
+    "rollup-plugin-jsx": "^1.0.3",
+    "rollup-plugin-less": "^0.1.1",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-replace": "^1.1.1",
+    "rollup-plugin-uglify": "^1.0.1",
+    "rollup-watch": "^2.5.0",
+    "router": "^1.1.4",
+    "serve-static": "^1.11.1",
+    "tiny-lr": "^1.0.3"
   }
 }
