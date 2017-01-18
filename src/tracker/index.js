@@ -186,22 +186,65 @@ export class ReactiveVar {
 
 export function reactive(target, prop, desc) {
   const key = Symbol('reactive ' + prop);
-  return {
-    enumerable: true,
-    get() {
-      if(!(key in this)) {
-        this[key] = new ReactiveVar(desc.initializer())
+
+  if(desc.writable)
+    return {
+      enumerable: true,
+      get() {
+        if(!(key in this)) {
+          this[key] = new ReactiveVar(desc.initializer())
+        }
+        return this[key].get();
+      },
+      set(value) {
+        if(!(key in this)) {
+          this[key] = new ReactiveVar(desc.initializer())
+        }
+        this[key].set(value);
+        return true;
       }
-      return this[key].get();
-    },
-    set(value) {
-      if(!(key in this)) {
-        this[key] = new ReactiveVar(desc.initializer())
-      }
-      this[key].set(value);
-      return true;
     }
-  }
+  if(desc.get && !desc.set)
+    return {
+      enumerable:true,
+      get() {
+        const current = _currentComputation;
+        // console.log('get rereactive')
+        if(!current)
+          return desc.get.call(this);
+
+        let ctx = this[key];
+        if(!ctx) {
+          this[key] = ctx = {
+            value: new ReactiveVar(),
+            comps: new Set
+          }
+        }
+
+        if(!ctx.comp) {
+          nonreactive(() => {
+            // console.log('starting rereactive')
+            ctx.comp = autorun(() => {
+              // console.log('updating rereactive')
+              ctx.value.set(desc.get.call(this))
+            })
+            // ctx.comp.onstop(() => console.log('stopping rereactive'))
+          })
+        }
+        if(!ctx.comps.has(current)) {
+          ctx.comps.add(current);
+          current.onstop(() => {
+            ctx.comps.delete(current);
+            if(ctx.comps.size == 0) {
+              ctx.comp.stop();
+              ctx.comp = null;
+            }
+          })
+        }
+
+        return ctx.value.get();
+      }
+    }
 }
 
 export function unreactive(target, prop, desc) {

@@ -74,7 +74,7 @@ app.get('/case/:caseId/', function(req, res, next) {
 })
 
 
-app.get('/case/:caseId/case.json', cache({ttl:60*60}), function(req, res, next) {
+app.get('/case/:caseId/case.json', function(req, res, next) {
   const query = url.parse(req.url, true).query;
   if(!('novideo' in query)) {
     req.headers['cache-control'] = 'no-cache';
@@ -82,11 +82,15 @@ app.get('/case/:caseId/case.json', cache({ttl:60*60}), function(req, res, next) 
       if(res.statusCode == 200) {
         res.removeHeader('content-length');
         return jsonTransform(obj => {
-          jsonpath.query(obj, '$.content[?(@.type=="imageblock")]').forEach(blk => blk.images = blk.images.map(transformImage));
+          jsonpath.query(obj, '$.content[?(@.type=="imageblock")]').forEach(blk => blk.images = transformImage(blk.images));
 
           function transformImage(image) {
             if(Array.isArray(image))
-              return image.map(transformImage);
+              return Promise.all(image.map(transformImage)).then(images => {
+                images = images.filter(Boolean);
+                if(images.length)
+                  return images;
+              });
 
             if(typeof image == 'string') {
               const parts = url.parse(image, true);
@@ -98,8 +102,10 @@ app.get('/case/:caseId/case.json', cache({ttl:60*60}), function(req, res, next) 
                 image.src = parts.pathname;
             }
 
-            if(image.vid) {
-              image.vid = fetchVideoLinks(image.vid).catch(err => log.warn(err))
+            if(typeof image.vid == 'string') {
+              return fetchVideoLinks(image.vid)
+                .then(vid => { image.vid = vid; return image; })
+                .catch(err => log.warn(err))
             }
             return image;
           }
@@ -113,58 +119,26 @@ app.get('/case/:caseId/case.json', cache({ttl:60*60}), function(req, res, next) 
 })
 
 const hasha = require('hasha');
-const tee = require('tee');
-const blobStore = require('atomic-fs-blob-store')('blobs');
+const LRU = require('lru-cache');
 
-function cache({ttl = 60} = {}) {
-  return (req, res, next) => {
-    const key = hasha(req.url, { algorithm: 'sha1' });
+function memoize(fn, lruOptions = {}) {
+  const lru = LRU(lruOptions);
 
-    blobStore.exists(key, (err, exists) => {
-      if(exists) {
-        blobStore.createReadStream(key)
-          .pipe(metaStream(({statusCode, headers, time}, rest) => {
-            const age = (Date.now() - time)/1000;
-            if(age < ttl) {
-              res.writeHead(statusCode, headers);
-              rest.pipe(res);
-            } else
-              updateCache();
-          }))
-      } else {
-        updateCache();
-      }
-    })
-
-    function updateCache() {
-      log.debug('updating cache', req.url);
-      interceptResponse(res, ({statusCode, _headers}) => {
-        const blobStream = metaStream({
-          statusCode,
-          headers:_headers,
-          time: Date.now()
-        })
-        blobStream.pipe(blobStore.createWriteStream(key));
-        return tee(blobStream);
-      })
-      next();
+  return function(...args) {
+    const key = hasha(args.map(JSON.stringify), { algorithm: 'sha1' });
+    if(lru.has(key)) {
+      log.debug(`getting ${key} from cache`);
+      return lru.get(key);
     }
-
+    const value = fn.apply(this, args);
+    lru.set(key, value);
+    log.debug(`putting ${key} to cache`);
+    return value;
   }
-
 }
 
-// app.get('/video.test', (req, res, next) => {
-//   res.send('hej')
-// })
-//
-// app.get('/video/:id', cache({ttl:60*60}), (req, res, next) => {
-//   fetchVideoLinks(req.params.id).then(links => {
-//     res.send(JSON.stringify(links))
-//   })
-// })
-
-function fetchVideoLinks(id) {
+const fetchVideoLinks = memoize(function(id) {
+  log.info('fetchVideoLinks', id)
   return new Promise((res,rej) => {
     vimeo.request({
       method:'GET',
@@ -177,7 +151,7 @@ function fetchVideoLinks(id) {
     .filter(file => file.quality != 'hls')
     .map(({width, height, link}) => ({width, height, src:link, poster: `https://i.vimeocdn.com/video/${imgId}_${width}x${height}.jpg?r=pad`}))
   });
-}
+}, { maxAge: 60*1000, max: 1024*1024 })
 
 function flatEach(ar, callb) {
   ar.forEach(value => {
@@ -188,7 +162,7 @@ function flatEach(ar, callb) {
   })
 }
 
-app.get('/content.json', cache(), function(req, res, next) {
+app.get('/content.json', function(req, res, next) {
   req.url = '/case/content.json';
   req.headers['cache-control'] = 'no-cache';
   interceptResponse(res, res => {
@@ -278,28 +252,23 @@ function jsonTransform(fn) {
     .then(buffer => fn(JSON.parse(buffer.toString())))
     .then(deepResolve)
     .then(obj => readable.end(JSON.stringify(obj, null, '  ')))
-    .catch(e => readable.emit('error', e));
+    .catch(e => {
+      log.error(e);
+      readable.emit('error', e)
+    });
 
   return duplexer(writable, readable);
 }
 
-function deepResolve(obj) {
-  if(typeof obj != 'object')
-    return Promise.resolve(obj);
-
-  const pending = [];
-  for(const [key, value] of Object.entries(obj)) {
-    pending.push(
-      deepResolve(value)
-      .then(value => {
-        obj[key] = value
-      })
-      .catch(err => {
-        delete obj[key];
-      })
-    );
-  }
-  return Promise.all(pending).then(() => obj)
+function deepResolve(value) {
+  return Promise.resolve(value)
+    .then(value => {
+      if(typeof value != 'object')
+        return value;
+      const obj = value;
+      return Promise.all(Object.entries(value).map(([key,value]) => deepResolve(value).then(value => obj[key] = value)))
+        .then(() => obj)
+    })
 }
 
 function request(opt) {
@@ -467,53 +436,6 @@ function proxy({target, discard = 404 }) {
   }
 }
 
-function metaStream(callbOrValue) {
-  return typeof callbOrValue == 'function' ? reader(callbOrValue) : writer(callbOrValue);
-
-  function writer(meta) {
-    let metaWritten = false;
-    return new Transform({
-      transform(chunk, enc, done) {
-        if(!metaWritten) {
-          const json = typeof meta == 'undefined' ? '' : JSON.stringify(meta);
-          this.push(json+'\n');
-          metaWritten = true;
-        }
-        done(null, chunk);
-      }
-    })
-  }
-  function reader(callb) {
-    let handler = find;
-    let buffer = [];
-    return new Transform({
-      transform(chunk, enc, done) {
-        handler.call(this, chunk, done);
-      }
-    })
-
-    function find(chunk, done) {
-      let [before, after] = split.call(chunk, '\n');
-      buffer.push(before);
-      if(after) {
-        let json = Buffer.concat(buffer).toString() || undefined;
-        callb(json && JSON.parse(json), this);
-        handler = found;
-        buffer = null;
-      }
-      done(null, after);
-    }
-
-    function found(chunk, done) {
-      done(null, chunk);
-    }
-
-    function split(sep) {
-      let i = this.indexOf(sep);
-      return ~i ? [this.slice(0,i), this.slice(i+sep.length)] : [this];
-    }
-  }
-}
 
 function simpleHttpLogger (req, res, next) {
   if (!req.url) return next()

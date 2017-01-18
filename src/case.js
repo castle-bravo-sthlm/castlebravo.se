@@ -1,8 +1,9 @@
 
 import { dom, Component, attr,  htmlToDom } from "./dom"
-import { autorun, reactive } from "./tracker"
+import { autorun, reactive, ReactiveVar } from "./tracker"
 import { Grid, LeafCell } from "./grid"
 import Play from "../icons/play.svg"
+import Pause from "../icons/pause.svg"
 import Logo from '../icons/logo_white.svg';
 import Facebook from '../icons/facebook.svg';
 import Google from '../icons/google.svg';
@@ -86,10 +87,41 @@ function createLeaf({data, depth }) {
   return 'vid' in data ? new VideoCell(data) : new ImageCell(data);
 }
 
+const mouseRecentlyMoved = new ReactiveVar(false);
+let moveTimeout = 0;
+window.addEventListener('mousemove', e => {
+  mouseRecentlyMoved.set(true);
+  clearTimeout(moveTimeout);
+  moveTimeout = setTimeout(() => {
+    mouseRecentlyMoved.set(false);
+  }, 2000)
+}, false)
+
 class VideoCell extends LeafCell {
 
+  constructor(...args) {
+    super(...args);
+    this._paused = new ReactiveVar(false);
+    this._mouseOverScrub = new ReactiveVar(false);
+    this._position = new ReactiveVar(0);
+  }
+
+  @reactive
   get paused() {
-    return !(this.focused || this.animating || this.props.cg && this.mouseOver) ;
+    return this._paused.get() || !(this.focused || this.animating || this.props.cg && this.mouseOver) ;
+  }
+
+  @reactive
+  get showScrub() {
+    return !this.props.cg && this.focused && (mouseRecentlyMoved.get() || this._mouseOverScrub.get())
+  }
+
+  play() {
+    this._paused.set(false);
+  }
+
+  pause() {
+    this._paused.set(true);
   }
 
   renderContent({vid, src, cg }) {
@@ -110,21 +142,29 @@ class VideoCell extends LeafCell {
     }
 
     const initVid = video => {
+      this.refs.video = video;
       makeVideoPlayableInline(video);
 
       video.volume = 0;
       if(!cg) {
         video.style.opacity = 0;
+
       }
       video.onplay = e => {
         video.style.opacity = 1;
-        this.refs.playBtn.style.opacity = 0;
       };
-      video.onpause = e => {
-        this.refs.playBtn.style.opacity = 1;
+
+      const updatePosition = () => {
+        this._position.set(video.currentTime/video.duration*0.95);
       }
+      let updateInt = 0;
+
       autorun(_ => {
-        tweenr.to(video, { volume: this.focused ? 1 : 0, duration: 0.5 })
+        const focused = this.focused;
+        tweenr.to(video, { volume: focused ? 1 : 0, duration: 0.5 })
+        clearInterval(updateInt);
+        if(focused)
+          updateInt = setInterval(updatePosition, 1000/30)
       })
       autorun(_ => {
         if(video.paused != this.paused)
@@ -132,6 +172,48 @@ class VideoCell extends LeafCell {
             video.pause();
           else
             video.play();
+      })
+
+    }
+
+    const initScrubBar = scrub_bar => {
+      this.refs.scrub_bar = scrub_bar;
+      autorun(() => {
+        const paused = this.paused;
+        this.refs.togglePlay.style.opacity = !paused ? 0 : 1;
+        this.refs.togglePause.style.opacity = paused ? 0 : 1;
+        this.refs.togglePlay.style.pointerEvents = paused ? 'all' : 'none';
+        this.refs.togglePause.style.pointerEvents = !paused ? 'all' : 'none';
+      })
+
+      autorun(() => {
+        scrub_bar.style.opacity = this.showScrub ? 1 : 0;
+      })
+
+      autorun(() => {
+        this.refs.scrub.style.left = this._position.get()*100+'%';
+      })
+    }
+
+    const initPlayBtn = btn => {
+      autorun(_ => {
+        btn.style.opacity = this.props.cg && !this.paused || this.focused ? 0 : 1;
+      })
+    }
+
+    const seekEvent = e => {
+      e.stopImmediatePropagation();
+      e.preventDefault();
+      const { left, width } = this.refs.scrub_bar.getBoundingClientRect();
+      const video = this.refs.video;
+      video.currentTime = (e.pageX-left) / width * video.duration;
+    }
+
+    const startScrub = e => {
+      const scrub = this.refs.scrub;
+      window.addEventListener('mousemove', seekEvent, false);
+      window::once('mouseup', e => {
+        window.removeEventListener('mousemove', seekEvent, false);
       })
     }
 
@@ -149,8 +231,16 @@ class VideoCell extends LeafCell {
     return [
       <div ref={initBg} style={`position:absolute;width:100%;height:100%;background:url(${imgSrc}) center/contain no-repeat;transition:transform 0.3s`}>
         <video class="IIV" ref={initVid} {...videoOpt} style="position:absolute;width:100%;height:100%;transition:opacity 0.5s" src={vidLink.src} ></video>
+        <div ref={initScrubBar} style={`position:absolute;bottom:3em;width:50%;left:25%;height:1em;background:rgba(0,0,0,0.4);opacity:0;transition:opacity 0.5s;font-size:1rem`}
+          onclick={ seekEvent }
+          onmouseenter={ e => this._mouseOverScrub.set(true) }
+          onmouseleave={ e => this._mouseOverScrub.set(false) }>
+          <Play ref="togglePlay" onclick={e => { e.stopImmediatePropagation(); this.play(); } } class="playicon" style="position:absolute;height:2em;width:2em;left:-2em;" />
+          <Pause ref="togglePause" onclick={e => { e.stopImmediatePropagation(); this.pause(); } } class="playicon" style="position:absolute;height:2em;width:2em;left:-2em;" />
+          <div ref="scrub" onmousedown={ startScrub } style="position:absolute;width:5%;height:100%;background:black"></div>
+        </div>
       </div>,
-      <Play ref="playBtn" class="playicon" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);transition:opacity 0.5s" />
+      <Play ref={initPlayBtn} class="playicon" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);transition:opacity 0.5s" />
     ]
   }
 }
@@ -186,6 +276,13 @@ const contentBlocks = {
   }
 }
 
+function once(type, callb, target = this) {
+  target.addEventListener(type, handler, false);
+  function handler(e) {
+    target.removeEventListener(type, handler, false);
+    callb(e);
+  }
+}
 
 function parseUrl(url) {
   const a = document.createElement('a')
