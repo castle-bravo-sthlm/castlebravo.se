@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "budo index.js --live --dir=public",
+    "dev": "budo index.js --dir=public",
     "build": "browserify index.js | uglifyjs -cm > public/bundle.js"
   },
   "repository": "git@github.com:castle-bravo-sthlm/castlebravo.se.git",
@@ -30,15 +30,19 @@
           "pragma": "dom"
         }
       ],
-      "transform-object-rest-spread"
+      "transform-object-rest-spread",
+      "glslify"
     ]
   },
   "dependencies": {
+    "babel-plugin-glslify": "^2.0.0",
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-preset-es2015": "^6.18.0",
     "babelify": "^7.3.0",
     "budo": "^9.4.5",
+    "glsl-noise": "^0.0.0",
+    "glslify": "^6.0.1",
     "regl": "^1.3.0"
   }
 }

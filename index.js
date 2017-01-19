@@ -1,24 +1,34 @@
 
 import { dom } from './dom';
 import createRegl from 'regl';
+import glsl from 'glslify';
 
 document.body.appendChild(<App />)
 
 function App() {
 
+  const loadCase = (src) => {
+    this.refs.comp.src = src;
+  }
+
   return (
     <div>
-      <Computer />
+      <ul>
+        <li onclick={e => loadCase('case0.mp4')} style="cursor:pointer">case0</li>
+        <li onclick={e => loadCase('case1.mp4')} style="cursor:pointer">case1</li>
+      </ul>
+      <Computer ref="comp" src="case0.mp4" />
     </div>
   )
 }
 
-function Computer() {
+function Computer({src}) {
 
   // const video = [
   //   <video src="case0.mp4" loop />,
   //   <video src="case1.mp4" loop />
   // ]
+  let ctrl;
 
   function initCanvas(canvas) {
 
@@ -30,23 +40,25 @@ function Computer() {
     }
     setTimeout(updateSize, 1000);
 
-    window.ctrl = startRegl(canvas, 'case0.mp4' );
-    // Promise.all([loadVideo('case0.mp4'), loadVideo('case1.mp4')])
-    //   .then(videos => {
-    //     console.log('videos loaded')
-    //     videos.forEach(video => {
-    //       video.loop = true;
-    //       video.play();
-    //     })
-    //   })
+    ctrl = startRegl(canvas, src );
   }
 
-  return (
+  const node = (
     <div style="display:inline-block;position:absolute;right:0;top:50%;transform:translateY(-40%)">
       <img src="dator.png" style="position:relative;z-index:1;height:150vh" />
       <canvas ref={initCanvas} style="position:absolute;top:24.5%;left:40%;width:36%;height:33%"></canvas>
     </div>
   )
+  Object.defineProperty(node, 'src', {
+    get() {
+      return src;
+    },
+    set(value) {
+      src = value;
+      ctrl.nextVideo(src);
+    }
+  })
+  return node;
 }
 
 function loadVideo(src) {
@@ -55,10 +67,15 @@ function loadVideo(src) {
   })
 }
 
+function spy(value) {
+  console.log(value);
+  return value;
+}
+
 function startRegl(canvas, videoSrc) {
   const regl = createRegl(canvas);
   const drawVideo = regl({
-    frag: `
+    frag: spy(glsl`
     precision mediump float;
     uniform sampler2D texture0;
     uniform sampler2D texture1;
@@ -67,17 +84,22 @@ function startRegl(canvas, videoSrc) {
 
     varying vec2 uv;
 
-    const float SQRT2 = 1.41421356;
+    #pragma glslify: glitch = require(./video_glitch)
 
     void main () {
       vec2 pos = 2.0*uv-1.0;
       pos *= pow(length(pos), .2);
       vec2 d = 0.5*pos + 0.5;
-      vec2 off = vec2(0.0, 1.0-mixr);
-      vec4 color0 = texture2D(texture0, vec2(d.x, d.y - mixr));
-      vec4 color1 = texture2D(texture1, vec2(d.x, d.y + 1.0 - mixr));
-      gl_FragColor = d.y > mixr ? color0 : color1;
-    }`,
+      vec4 color;
+      if(d.y > mixr) {
+        color = glitch(texture0, d, time, mixr + 0.3);
+      } else {
+        color = glitch(texture1, d, time, mixr + 0.3);
+      }
+      //vec4 color1 = texture2D(texture1, d + off);
+      //gl_FragColor = d.y > mixr ? color0 : color1;
+      gl_FragColor = color;
+    }`),
 
     vert: `
     precision mediump float;
