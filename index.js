@@ -67,15 +67,10 @@ function loadVideo(src) {
   })
 }
 
-function spy(value) {
-  console.log(value);
-  return value;
-}
-
 function startRegl(canvas, videoSrc) {
   const regl = createRegl(canvas);
   const drawVideo = regl({
-    frag: spy(glsl`
+    frag: glsl`
     precision mediump float;
     uniform sampler2D texture0;
     uniform sampler2D texture1;
@@ -84,22 +79,32 @@ function startRegl(canvas, videoSrc) {
 
     varying vec2 uv;
 
-    #pragma glslify: glitch = require(./video_glitch)
+    #pragma glslify: glitch = require('./video_glitch', time=time)
+    #pragma glslify: crt_bulge = require('./crt_bulge')
+    #pragma glslify: grid = require('./grid')
+
+    float rip(float x) {
+      return .5/(x-.5+step(0.,x));
+    }
+
+    float bulge(vec2 uv) {
+      vec2 p = 2.*uv - 1.;
+      return 2. - 1.5*sqrt((1.-p.x*p.x)*(1.-p.y*p.y));
+    }
 
     void main () {
-      vec2 pos = 2.0*uv-1.0;
-      pos *= pow(length(pos), .2);
-      vec2 d = 0.5*pos + 0.5;
+      vec2 uv2 = crt_bulge(uv);
       vec4 color;
-      if(d.y > mixr) {
-        color = glitch(texture0, d, time, mixr + 0.3);
+      uv2.x += .55*rip(20.*(uv.y-mixr*2.+.5));
+      float strength = .3 + smoothstep(.0, .3, mixr);
+      if(uv2.y > mixr) {
+        color = glitch(texture0, uv2, strength);
       } else {
-        color = glitch(texture1, d, time, mixr + 0.3);
+        color = glitch(texture1, uv2, strength);
       }
-      //vec4 color1 = texture2D(texture1, d + off);
-      //gl_FragColor = d.y > mixr ? color0 : color1;
-      gl_FragColor = color;
-    }`),
+      // color.xyz = vec3(grid(uv2, vec2(.1,.1)));
+      gl_FragColor = pow(color, vec4(bulge(uv)));
+    }`,
 
     vert: `
     precision mediump float;

@@ -7,7 +7,7 @@ float rand(vec2 co)
 }
 
 
-vec4 glitch(sampler2D texture, vec2 uv, float time, float strength)
+vec4 glitch(sampler2D texture, vec2 uv, float strength)
 {
     vec4 fragColor;
     // Create large, incidental noise waves
@@ -26,7 +26,7 @@ vec4 glitch(sampler2D texture, vec2 uv, float time, float strength)
     fragColor.rgb = mix(fragColor.rgb, vec3(rand(vec2(uv.y * time))), noise * 0.3).rgb;
 
     // Apply a line pattern every 4 pixels
-    if (floor(mod(uv.y * 0.25, 2.0)) == 0.0)
+    if (floor(mod(gl_FragCoord.y * 0.25, 2.0)) == 0.0)
     {
         fragColor.rgb *= 1.0 - (0.15 * noise);
     }
