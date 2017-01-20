@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "budo index.js --live --host=localhost --dir=public --wg=**/*.glsl",
+    "dev": "budo index.js --live --dir=public",
     "build": "browserify index.js | uglifyjs -cm > public/bundle.js"
   },
   "repository": "git@github.com:castle-bravo-sthlm/castlebravo.se.git",

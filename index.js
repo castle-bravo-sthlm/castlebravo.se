@@ -3,6 +3,10 @@ import { dom } from './dom';
 import createRegl from 'regl';
 import glsl from 'glslify';
 
+window.onerror = e => {
+  alert(e);
+  window.onerror = undefined;
+};
 document.body.appendChild(<App />)
 
 function App() {
@@ -63,7 +67,7 @@ function Computer({src}) {
 
 function loadVideo(src) {
   return new Promise((res, rej) => {
-    const video = <video src={src} oncanplay={e => res(video)} onerror={rej} />;
+    const video = <video src={src} oncanplay={e => res(video)} crossorigin="anonymous" autoplay muted playsinline onerror={e => rej(video.error)} />;
   })
 }
 
@@ -134,8 +138,8 @@ function startRegl(canvas, videoSrc) {
     count: 3
   });
   let mixr = 0, prevTime = 0, video0, video1;
-  const texture0 = regl.texture({shape:[768,512], min:'linear', mag:'linear'});
-  const texture1 = regl.texture({shape:[768,512], min:'linear', mag:'linear'});
+  let texture0 = regl.texture({min:'linear', mag:'linear'});
+  let texture1 = regl.texture({min:'linear', mag:'linear'});
   const ctrl = regl.frame(({time}) => {
     if(video0)
       texture0.subimage(video0);
@@ -145,6 +149,7 @@ function startRegl(canvas, videoSrc) {
       if(mixr >= 1) {
         mixr = 0;
         video0 = video1;
+        [texture0, texture1] = [ texture1, texture0 ];
         video1 = null;
       }
     }
@@ -156,6 +161,7 @@ function startRegl(canvas, videoSrc) {
     loadVideo(src).then(video => {
       video.loop = true;
       video.play();
+      texture1({width:video.videoWidth, height:video.videoHeight})
       video1 = video;
     })
   }
@@ -163,6 +169,7 @@ function startRegl(canvas, videoSrc) {
     loadVideo(videoSrc).then(video => {
       video.loop = true;
       video.play();
+      texture0({width:video.videoWidth, height:video.videoHeight})
       video0 = video;
     })
   return ctrl;
