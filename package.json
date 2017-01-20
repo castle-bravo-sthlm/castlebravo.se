@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "budo index.js --live --dir=public",
+    "dev": "budo index.js --live --dir=public --pushstate",
     "build": "browserify index.js | uglifyjs -cm > public/bundle.js"
   },
   "repository": "git@github.com:castle-bravo-sthlm/castlebravo.se.git",
@@ -41,8 +41,10 @@
     "babel-preset-es2015": "^6.18.0",
     "babelify": "^7.3.0",
     "budo": "^9.4.5",
+    "delegate": "^3.1.1",
     "glsl-noise": "^0.0.0",
     "glslify": "^6.0.1",
+    "history": "^4.5.1",
     "regl": "^1.3.0"
   }
 }
