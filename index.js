@@ -12,12 +12,12 @@ window.onerror = e => {
   window.onerror = undefined;
 };
 
-const history = createHistory();
-history.listen(handleLocation);
-window.onload = e => handleLocation(history.location);
-
 const page = new ReactiveVar({});
 const video = new ReactiveVar('case0.mp4')
+
+const history = createHistory();
+history.listen(handleLocation);
+handleLocation(history.location)
 
 function handleLocation({pathname}) {
   console.log('loc', pathname)
@@ -56,7 +56,7 @@ function App() {
 
   return (
     <div ref={initContent}>
-      <div style="white-space:pre-wrap" ref="html"></div>
+      <pre style="white-space:pre-wrap" ref="html"></pre>
       <Computer ref="comp" />
     </div>
   )

@@ -8,7 +8,7 @@ export function Computer({src}) {
 
   const node = (
     <div style="display:inline-block;position:absolute;right:0;top:50%;transform:translateY(-40%)">
-      <img src="dator.png" style="position:relative;z-index:1;height:150vh" />
+      <img src="dator.png" style="position:relative;z-index:1;max-height:100vh;max-width:50vw" />
       <canvas ref="canvas" style="position:absolute;top:24.5%;left:40%;width:36%;height:33%"></canvas>
     </div>
   )
