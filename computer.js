@@ -7,23 +7,24 @@ export function Computer({src}) {
 
 
   const node = (
-    <div style="display:inline-block;position:absolute;right:0;top:50%;transform:translateY(-40%)">
-      <img src="dator.png" style="position:relative;z-index:1;max-height:100vh;max-width:50vw" />
-      <canvas ref="canvas" style="position:absolute;top:24.5%;left:40%;width:36%;height:33%"></canvas>
+    <div style="display:inline-block;position:fixed;right:0;top:50%;transform:translateY(-40%);transition:transform 1s">
+      <img src="dator.png" style="position:relative;z-index:1;max-height:100vh" />
+      <canvas ref="canvas" style="position:absolute;top:10%;left:38%;width:41%;height:44%;"></canvas>
     </div>
   )
 
   Object.assign(node, startRegl(this.refs.canvas));
 
-  // Object.defineProperty(node, 'src', {
-  //   get() {
-  //     return src;
-  //   },
-  //   set(value) {
-  //     src = value;
-  //     ctrl.loadVideo(src);
-  //   }
-  // })
+  let large = false;
+  Object.defineProperty(node, 'large', {
+    get() {
+      return large;
+    },
+    set(value) {
+      large = !!value;
+      node.style.transform = large ? 'scale(1.6,1.6) translateY(-10%)' : 'translateY(-40%)'
+    }
+  })
   return node;
 }
 
@@ -101,8 +102,8 @@ function startRegl(canvas, videoSrc) {
   texture0.update = texture1.update = noop;
 
   const ctrl = regl.frame(({time}) => {
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
+    canvas.width = canvas.offsetWidth * 1.6;
+    canvas.height = canvas.offsetHeight * 1.6;
 
     texture0.update();
 

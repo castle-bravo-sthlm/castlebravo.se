@@ -47,16 +47,18 @@ function App() {
       if(video) {
         if(this.refs.comp.src != video)
           this.refs.comp.loadVideo(video);
+        this.refs.comp.large = true;
       } else {
         console.log('wtf')
         this.refs.comp.loadImage('logo.jpeg');
+        this.refs.comp.large = false;
       }
     })
   }
 
   return (
     <div ref={initContent}>
-      <pre style="white-space:pre-wrap" ref="html"></pre>
+      <div style="white-space:pre-wrap;margin:1em 150vh 1em 1em;" ref="html"></div>
       <Computer ref="comp" />
     </div>
   )

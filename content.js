@@ -34,9 +34,15 @@ export default {
   "/cases/ldb": {
     video: '/videos/LdB.mp4',
     html: text`
-    Ldb
+    Description
+    Web-application, interactive campaign site for desktop and mobile.
+    Participants could design a postcard from their fantasy tropical island.
 
-    ladida`
+    Challenge
+    Get a realistic look and feel with minimal weight and loading time.
+
+    Solution
+    Employed WebGL and advanced shader techniques to ray  trace the sand in the beach, realtime. `
   },
   "/cases/concreteaccuracy": {
     video: '/videos/ConcreteAccuracy.mp4',
