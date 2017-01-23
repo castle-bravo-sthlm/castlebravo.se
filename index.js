@@ -41,9 +41,21 @@ document.body.appendChild(<App />)
 function App() {
 
   const initContent = (el) => {
+    let charInt = 0;
+    let i = 0;
     autorun(c => {
       const {video, html } = page.get() || {};
-      this.refs.html.innerHTML = html;
+      this.refs.html.innerHTML = html.split(' ').map((c,i) => `<span style="visibility:hidden">${c}</span>`).join(' ');
+      clearInterval(charInt);
+      i = 0;
+      charInt = setInterval(c => {
+        let span = this.refs.html.getElementsByTagName('span').item(i++);
+        if(span)
+          span.style.visibility = 'visible';
+        else
+          clearInterval(charInt)
+
+      })
       if(video) {
         if(this.refs.comp.src != video)
           this.refs.comp.loadVideo(video);
@@ -58,7 +70,7 @@ function App() {
 
   return (
     <div ref={initContent}>
-      <div style="white-space:pre-wrap;margin:1em 150vh 1em 1em;" ref="html"></div>
+      <pre style="white-space:pre-wrap;margin:1em 150vh 1em 1em;" ref="html"></pre>
       <Computer ref="comp" />
     </div>
   )
