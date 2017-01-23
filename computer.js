@@ -37,6 +37,7 @@ function startRegl(canvas, videoSrc) {
     uniform sampler2D texture1;
     uniform float time;
     uniform float mixr;
+    uniform float noise;
 
     varying vec2 uv;
 
@@ -57,11 +58,11 @@ function startRegl(canvas, videoSrc) {
       vec2 uv2 = crt_bulge(uv);
       vec4 color;
       uv2.x += .55*rip(20.*(uv.y-mixr*2.+.5));
-      float strength = .3 + smoothstep(.0, .3, mixr);
+      //float noise = .3 + smoothstep(.0, .3, mixr);
       if(uv2.y > mixr) {
-        color = glitch(texture0, uv2, strength);
+        color = glitch(texture0, uv2, noise);
       } else {
-        color = glitch(texture1, uv2, strength);
+        color = glitch(texture1, uv2, noise);
       }
       // color.xyz = vec3(grid(uv2, vec2(.1,.1)));
       gl_FragColor = pow(color, vec4(bulge(uv)));
@@ -89,17 +90,21 @@ function startRegl(canvas, videoSrc) {
 
       mixr: regl.prop('mixr'),
 
+      noise: regl.prop('noise'),
+
       time: regl.context('time')
     },
 
     count: 3
   });
 
-  let mixr = 0, prevTime = 0, swapping = false, updTex0, updTex1;
+  let mixr = 0, prevTime = 0, swapping = false, noise = 0.3;
   let texture0 = regl.texture({min:'linear', mag:'linear'});
   let texture1 = regl.texture({min:'linear', mag:'linear'});
 
   texture0.update = texture1.update = noop;
+
+  document.onscroll = e => noise += 0.5;
 
   const ctrl = regl.frame(({time}) => {
     canvas.width = canvas.offsetWidth * 1.6;
@@ -116,7 +121,9 @@ function startRegl(canvas, videoSrc) {
         [texture0, texture1] = [ texture1, texture0 ];
       }
     }
-    drawVideo({ texture0 , texture1, mixr })
+
+    noise = Math.max(0.2, noise*0.95);
+    drawVideo({ texture0, texture1, mixr, noise })
     prevTime = time;
   });
 
@@ -128,6 +135,7 @@ function startRegl(canvas, videoSrc) {
       texture1(video)
       texture1.update = function() { this.subimage(video) };
       swapping = true;
+      noise = 2;
       this.src = src;
     })
   }
