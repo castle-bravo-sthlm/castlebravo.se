@@ -7,8 +7,8 @@ export function Computer({src}) {
 
 
   const node = (
-    <div style="display:inline-block;position:fixed;right:0;top:50%;transform:translateY(-40%);transition:transform 1s">
-      <img src="dator.png" style="position:relative;z-index:1;max-height:100vh" />
+    <div style="display:inline-block;position:fixed;right:0;top:50%;transform:translateY(-50%);transition:transform 1s">
+      <img src="dator.png" style="position:relative;z-index:1;height:80vh" />
       <canvas ref="canvas" style="position:absolute;top:10%;left:38%;width:41%;height:44%;"></canvas>
     </div>
   )
@@ -22,7 +22,7 @@ export function Computer({src}) {
     },
     set(value) {
       large = !!value;
-      node.style.transform = large ? 'scale(1.6,1.6) translateY(-10%)' : 'translateY(-40%)'
+      node.style.transform = large ? 'scale(1.6,1.6) translateY(-10%)' : 'translateY(-50%)'
     }
   })
   return node;

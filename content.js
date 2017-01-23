@@ -4,16 +4,19 @@ export default {
     html: text`
     We are an innovation and creative technology bureau.
 
-    Internet is our business and passion.  We do everything we can to contribute to it’s evolution.
-    We come from a various background, computer scientists and mathematics from the Royal Swedish Institute of technology. Background within from both advertising and complex software development. We know most of the programming languages, but prefer javascript and open source libraries.
+    With backgrounds in computer science, mathematics, complex software development, advertising and communication we know the backbone, the main ingredients of today’s society, ones and zeros. Internet is our business and passion and we do everything we can to contribute to it’s evolution.
 
-    Internet is rapidly growing. Now days it’s integrated in our daily lives and It’s easier for each common person to control their digital life without knowledge in programming.
-    A lots of services has being automated and more or less it's like building lego, mixing components to get an end result. Knowledge in collecting data to see what people like makes it easier to talk to the audience.
+    We’ll help you be unique within the digital sphere by performing R&D, Prototyping of a product or idea or by making a finalized product as part of your offer.
 
-    But as we see it automising and simplifying the web comes with a price. The web turns more and more boring. Soon everyhthing might look the same.
-    This is what we want to challenge.
-    We’ll help you be unique within the digital sphere, by this you probably gain lots of profit and stardom.
-    -<a href="/cases">cases</a>
+    WITH <a href="/case/tbwa">TBWA</a> STOCKHOLM WE DID A BROWSER POSTCARD EDITOR
+
+    FOR <a href="/case/atlas_copco">ATLAS COPCO</a> WE MADE MULTIPLE PRODUCT PAGES
+
+    TOGETHER WITH <a href="/case/graviz">GRAVIZ</a> WE CREATED A DUAL SCREEN GAME
+
+    WE MADE THIS <a href="/case/quiz">QUIZ</a> TO UNITE ATLAS COPCO
+
+    WE HELPED <a href="/case/crosby">CROSBY</a> STHLM SHARE THEIR WORK WITH A NEW SITE
     `
   },
   "/cases": {
@@ -31,18 +34,12 @@ export default {
 
     ladida`
   },
-  "/cases/ldb": {
+  "/case/tbwa": {
     video: '/videos/LdB.mp4',
     html: text`
-    Description
-    Web-application, interactive campaign site for desktop and mobile.
-    Participants could design a postcard from their fantasy tropical island.
-
-    Challenge
-    Get a realistic look and feel with minimal weight and loading time.
-
-    Solution
-    Employed WebGL and advanced shader techniques to ray  trace the sand in the beach, realtime. `
+    An interactive campaign site for desktop and mobile created for LdB and Cederroth where participants could design a postcard from their fantasy tropical island, invite friends to vote for it and in the end (maybe) win a trip or some other nice prize.
+    The challenge was to get a realistic look and feel with minimal loading time and to do that we used WebGL Canvas and advanced shader techniques to ray trace the sand and place objects on the beach realtime.
+    `
   },
   "/cases/concreteaccuracy": {
     video: '/videos/ConcreteAccuracy.mp4',
@@ -61,14 +58,6 @@ function text(strings, ...args) {
     if(args.length)
       str += args.shift();
   }
-  //str = str.replace(/^\s+/,'')
-  let lines = str.split('\n');
-  let minSpace = lines.reduce((minSpace, line) => Math.min(minSpace, space(line) || Number.POSITIVE_INFINITY), Number.POSITIVE_INFINITY);
-  return lines.map(line => line.slice(minSpace)).join('\n')
+  str = str.trim().replace(/\n/g,'<br>');
   return str;
-}
-
-function space(str) {
-  const m = /^ *\S/.exec(str);
-  return m ? m[0].length - 1 : 0;
 }

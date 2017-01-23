@@ -45,32 +45,29 @@ function App() {
     let i = 0;
     autorun(c => {
       const {video, html } = page.get() || {};
-      this.refs.html.innerHTML = html.split(' ').map((c,i) => `<span style="visibility:hidden">${c}</span>`).join(' ');
-      clearInterval(charInt);
-      i = 0;
-      charInt = setInterval(c => {
-        let span = this.refs.html.getElementsByTagName('span').item(i++);
-        if(span)
-          span.style.visibility = 'visible';
-        else
-          clearInterval(charInt)
+      this.refs.html.innerHTML = html;
 
-      })
       if(video) {
         if(this.refs.comp.src != video)
           this.refs.comp.loadVideo(video);
-        this.refs.comp.large = true;
+        //this.refs.comp.large = true;
       } else {
-        console.log('wtf')
         this.refs.comp.loadImage('logo.jpeg');
-        this.refs.comp.large = false;
+        //this.refs.comp.large = false;
       }
+    });
+
+    window.addEventListener('scroll', e => {
+      this.refs.space.style.height = `calc(43vh + ${document.body.scrollTop}px)`;
     })
   }
 
   return (
     <div ref={initContent}>
-      <div style="white-space:pre-wrap;margin:1em 150vh 1em 1em;" ref="html"></div>
+      <div ref="space" style="float:right; background:none; width:85vh; height:43vh" ></div>
+      <div style="float:right; background:none; width:119vh; height:30vh;clear:right" ></div>
+      <div style="float:right; background:none; width:95vh; height:calc(27vh - 2em);clear:right" ></div>
+      <div style="margin:2em;" ref="html"></div>
       <Computer ref="comp" />
     </div>
   )
