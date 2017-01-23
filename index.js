@@ -70,7 +70,7 @@ function App() {
 
   return (
     <div ref={initContent}>
-      <pre style="white-space:pre-wrap;margin:1em 150vh 1em 1em;" ref="html"></pre>
+      <div style="white-space:pre-wrap;margin:1em 150vh 1em 1em;" ref="html"></div>
       <Computer ref="comp" />
     </div>
   )
