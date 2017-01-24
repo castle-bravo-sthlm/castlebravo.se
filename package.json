@@ -12,6 +12,13 @@
   "author": "André Lillvede <andre.lillvede@castlebravo.se>",
   "license": "MIT",
   "dependencies": {
-    "next": "2.0.0-beta.18"
+    "babel-plugin-glslify": "^2.0.0",
+    "browserify-mime": "^1.2.9",
+    "glsl-noise": "^0.0.0",
+    "glslify": "^6.0.1",
+    "glslify-loader": "^1.0.2",
+    "next": "2.0.0-beta.18",
+    "raw-loader": "^0.5.1",
+    "regl": "^1.3.0"
   }
 }
