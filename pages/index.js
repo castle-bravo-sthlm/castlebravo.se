@@ -3,57 +3,15 @@ import React from 'react';
 import Link from 'next/prefetch'
 
 import { Video } from '../components/video';
-
-class ScrollPage extends React.Component {
-
-  EXTRA_HEIGHT = 500
-
-  updateSize = () => {
-    console.log('updateSize')
-    const { wrapper, head, content } = this.refs;
-    content.style.paddingTop = head.offsetHeight + 'px';
-    wrapper.style.height = content.offsetHeight + this.EXTRA_HEIGHT + 'px';
-    this.updateScroll();
-  }
-  updateScroll = () => {
-    const offset = Math.max(0, document.body.scrollTop - this.EXTRA_HEIGHT);
-    const tweenRatio = Math.min(1, document.body.scrollTop/this.EXTRA_HEIGHT);
-
-    this.refs.head.style.marginLeft = 20+tweenRatio*50+'vw';
-    this.refs.head.style.width = 60-tweenRatio*30+'vw';
-    this.refs.content.style.marginLeft = 5+(1 - tweenRatio)*15+'vw';
-    this.refs.content.style.top = -offset+'px';
-  }
-
-  render() {
-    return (
-      <div ref="wrapper" style={{position:'relative', overflow: 'hidden' }}>
-        <div ref="head" style={{position:'fixed', width:'60vw', marginLeft: '20vw' }}>
-          <section>
-            <Video />
-          </section>
-        </div>
-        <div ref="content" style={{position:'fixed', width:'60vw', marginLeft: '20vw' }}>{this.props.children}</div>
-      </div>
-    )
-  }
-
-  componentDidMount() {
-    this.updateSize();
-    //this.updateScroll();
-    window.addEventListener('resize', this.updateSize);
-    window.addEventListener('scroll', this.updateScroll);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.updateSize);
-    window.removeEventListener('scroll', this.updateScroll);
-  }
-}
+import HeadSlide from '../components/headslide';
 
 
 export default () => (
-  <ScrollPage>
+  <HeadSlide width={60} head={(
+    <section style={{position:'relative', margin: '2em 0', paddingTop:'40%'  }}>
+      <Video style={{position:'absolute', top:0, width:'100%',height:'100%'}}/>
+    </section>
+  )}>
     <div className="root">
       <Head>
         <title>Castle Bravo</title>
@@ -215,5 +173,5 @@ export default () => (
       `}</style>
 
     </div>
-  </ScrollPage>
+  </HeadSlide>
 )
