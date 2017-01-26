@@ -16,6 +16,9 @@ export default class CBDocument extends Document {
                background-color: #1a1a1a;
                margin: 0;
              }
+             * {
+               box-sizing:border-box;
+             }
            `}
          </style>
          <link type="text/css" rel="stylesheet" href="//fast.fonts.net/cssapi/3c9a48eb-44bb-48fd-a161-dffbfb189b99.css"/>

@@ -5,11 +5,19 @@ import Link from 'next/prefetch'
 import { Video } from '../components/video';
 import HeadSlide from '../components/headslide';
 
+// videos are 768*512
 
 export default () => (
   <HeadSlide width={60} head={(
-    <section style={{position:'relative', margin: '2em 0', paddingTop:'40%'  }}>
-      <Video style={{position:'absolute', top:0, width:'100%',height:'100%'}}/>
+    <section style={{position:'relative', maxWidth: 'calc(0.6 * 600px)', margin:'0 auto' }}>
+      <div style={{ width:'60vw', maxWidth: 'calc(0.6 * 600px)'}}>
+        <div style={{paddingTop:100/1.5+'%'}} />
+      </div>
+      <div style={{position:'absolute', width:'100%', bottom:0, paddingLeft:'1em' }}>
+        <div style={{position:'relative', paddingTop:100/1.5+'%', backgroundColor:'blue' }}>
+          <Video style={{position:'absolute', top:'-1em', left:'-1em', width:'100%',height:'100%'}}/>
+        </div>
+      </div>
     </section>
   )}>
     <div className="root">
@@ -155,7 +163,7 @@ export default () => (
           font-family: Avenir Next LT W01 Bold;
         }
 
-        @media (max-width: 720px) {
+        @media (max-width: 600px) {
           .cols {
             flex-direction: column;
           }
