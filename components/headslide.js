@@ -14,46 +14,37 @@ function debounceRaf(fn) {
 
 export default class HeadSlide extends React.Component {
 
-  get EXTRA_HEIGHT() {
-    return Math.max(0, window.innerWidth - 600);
-  }
-
   static propTypes = {
     width: React.PropTypes.number,
-    sideWidth: React.PropTypes.number,
+    minWidth: React.PropTypes.number,
     head: React.PropTypes.element.isRequired
   }
   static defaultProps = {
     width: 60,
-    sideWidth: 20
+    minWidth: 550
   }
 
-  get width() {
-    return lerp(90, 60, (window.innerWidth-300)/1080);
-  }
-
-  get sideWidth() {
-    return lerp(10, 30, (window.innerWidth-300)/1080);;
+  get _extraHeight() {
+    const { wrapper } = this.refs;
+    return wrapper.offsetWidth > this.props.minWidth ? window.innerHeight/2 : 0;
   }
 
   updateSize = debounceRaf(() => {
-    console.log('updateSize')
     const { wrapper, head, content } = this.refs;
     content.style.paddingTop = head.offsetHeight + 'px';
-    wrapper.style.height = content.offsetHeight + this.EXTRA_HEIGHT + 'px';
+    wrapper.style.height = content.offsetHeight + this._extraHeight + 'px';
     this.updateScroll();
   })
   updateScroll = debounceRaf(() => {
-    const offset = Math.max(0, document.body.scrollTop - this.EXTRA_HEIGHT);
-    const tweenRatio = this.EXTRA_HEIGHT ? Math.min(1, document.body.scrollTop/this.EXTRA_HEIGHT) : 0;
-    const { width, sideWidth } = this;
-    const endSpacing = (100 - width - sideWidth)/3;
+    const offset = Math.max(0, document.body.scrollTop - this._extraHeight);
+    const tweenRatio = this._extraHeight ? Math.min(1, document.body.scrollTop/this._extraHeight) : 0;
+    const { width, sideWidth } = this.props;
     //console.log(width, sideWidth, endSpacing, width+sideWidth+3*endSpacing)
 
-    this.refs.head.style.marginLeft = lerp((100-width)/2, width+2*endSpacing, tweenRatio)+'vw';
-    this.refs.head.style.width = lerp(width, sideWidth, tweenRatio)+'vw';
-    this.refs.content.style.marginLeft = lerp((100-width)/2, endSpacing, tweenRatio)+'vw';
-    this.refs.content.style.width = width+'vw';
+    this.refs.head.style.marginLeft = lerp(0, width, tweenRatio)+'%';
+    this.refs.head.style.width = lerp(100, 100-width, tweenRatio)+'%';
+    //this.refs.content.style.marginLeft = lerp((100-width)/2, endSpacing, tweenRatio)+'%';
+    this.refs.content.style.width = lerp(100, width, tweenRatio)+'%';
     this.refs.content.style.top = -offset+'px';
   })
 
@@ -62,8 +53,8 @@ export default class HeadSlide extends React.Component {
     const margin = (100 - width)/2;
     return (
       <div ref="wrapper" style={{position:'relative', overflow: 'hidden' }}>
-        <div ref="head" style={{position:'fixed', width:width+'vw', marginLeft: margin+'vw', zIndex:1 }}>{head}</div>
-        <div ref="content" style={{position:'fixed', width:width+'vw', marginLeft: margin+'vw' }}>{children}</div>
+        <div ref="head" style={{position:'fixed', zIndex:1 }}>{head}</div>
+        <div ref="content" style={{position:'fixed' }}>{children}</div>
       </div>
     )
   }
@@ -72,11 +63,11 @@ export default class HeadSlide extends React.Component {
     this.updateSize();
     //this.updateScroll();
     window.addEventListener('resize', this.updateSize);
-    window.addEventListener('scroll', this.updateScroll);
+    window.addEventListener('scroll', this.updateSize);
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateSize);
-    window.removeEventListener('scroll', this.updateScroll);
+    window.removeEventListener('scroll', this.updateSize);
   }
 }

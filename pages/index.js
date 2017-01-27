@@ -8,16 +8,11 @@ import HeadSlide from '../components/headslide';
 // videos are 768*512
 
 export default () => (
-  <HeadSlide width={60} head={(
-    <section style={{position:'relative', maxWidth: 'calc(0.6 * 600px)', margin:'0 auto' }}>
-      <div style={{ width:'60vw', maxWidth: 'calc(0.6 * 600px)'}}>
-        <div style={{paddingTop:100/1.5+'%'}} />
-      </div>
-      <div style={{position:'absolute', width:'100%', bottom:0, paddingLeft:'1em' }}>
+  <HeadSlide width={60} minWidth={550} head={(
+    <section style={{position:'relative', width: 'calc(40vw - 2em)', minWidth:'calc(0.4 * 550px)', maxWidth:'600px', margin:'0 auto' }}>
         <div style={{position:'relative', paddingTop:100/1.5+'%', backgroundColor:'blue' }}>
           <Video style={{position:'absolute', top:'-1em', left:'-1em', width:'100%',height:'100%'}}/>
         </div>
-      </div>
     </section>
   )}>
     <div className="root">
@@ -117,6 +112,9 @@ export default () => (
           color: white;
           flex-direction: column;
           align-items: center;
+          max-width:800px;
+          margin: 0 auto;
+          padding:1em;
         }
         section {
           //width: 100%;
@@ -163,7 +161,7 @@ export default () => (
           font-family: Avenir Next LT W01 Bold;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 720px) {
           .cols {
             flex-direction: column;
           }
