@@ -5,13 +5,14 @@ import Link from 'next/prefetch'
 import { Video } from '../components/video';
 import HeadSlide from '../components/headslide';
 
+
 // videos are 768*512
 
 export default () => (
   <HeadSlide width={60} minWidth={550} head={(
-    <section style={{position:'relative', width: 'calc(40vw - 2em)', minWidth:'calc(0.4 * 550px)', maxWidth:'600px', margin:'0 auto' }}>
-        <div style={{position:'relative', paddingTop:100/1.5+'%', backgroundColor:'blue' }}>
-          <Video style={{position:'absolute', top:'-1em', left:'-1em', width:'100%',height:'100%'}}/>
+    <section style={{position:'relative', width: 'calc(40vw - 2em)', minWidth:'calc(0.4 * 550px)', maxWidth:'600px', margin:'2em auto 0 auto' }}>
+        <div style={{position:'relative', paddingTop:100/1.5+'%', backgroundColor:'#162931' }}>
+          <Video style={{position:'absolute', top:'-15px', left:'-15px', width:'100%',height:'100%'}}/>
         </div>
     </section>
   )}>
@@ -41,7 +42,7 @@ export default () => (
         <p className="cases">
           WITH TBWA STOCKHOLM WE DID <Link href="/case/ldb"><a>A BROWSER POSTCARD EDITOR</a></Link> AND
           FOR ATLAS COPCO WE MADE <Link href="/case/atlas_copco_products"><a>MULTIPLE PRODUCT PAGES</a></Link>.
-          &nbsp;TOGETHER WITH GRAVIZ WE CREATED A <Link href="/case/concrete_accuracy"><a>DUAL SCREEN GAME</a></Link>
+          TOGETHER WITH GRAVIZ WE CREATED A <Link href="/case/concrete_accuracy"><a>DUAL SCREEN GAME</a></Link>
           &nbsp;AND WE MADE THIS <Link href="/case/minequest"><a>QUIZ</a></Link> TO UNITE ATLAS COPCO.
           WE HELPED CROSBY STHLM SHARE THEIR WORK WITH A <Link href="/case/crosby"><a>NEW SITE</a></Link>
           &nbsp;AND WE PRESENTED <Link href="/case/ideas_move_mountains"><a>SIX STORIES</a></Link> FOR ATLAS COPCO’S IDEAS MOVE MOUNTAINS
@@ -101,17 +102,11 @@ export default () => (
         </p>
       </section>
 
-      <footer>
-        Follow us:
-        FACEBOOK | LINKEDIN |  TWITTER | INSTAGRAM | GITHUB
-      </footer>
-
       <style jsx>{`
         div.root {
           display: flex;
           color: white;
           flex-direction: column;
-          align-items: center;
           max-width:800px;
           margin: 0 auto;
           padding:1em;
@@ -120,60 +115,61 @@ export default () => (
           //width: 100%;
           margin-bottom: 2em;
           font-family: Baskerville W01 Regular_705699;
-          font-size: 1.2em;
         }
 
-        .cols {
+        section > .cols {
           position:relative;
           width: 100%;
           display: flex;
 
         }
 
-        .cols > p {
+        section > .cols > p {
           width:50%;
           padding-left: 1em;
           margin: 0;
         }
 
-        .cols > p:first-child {
+        section > .cols > p:first-child {
           padding-right: 1em;
           padding-left: 0;
         }
 
-        #work p {
+        section#work > p {
          font-family: Avenir Next LT W01 Bold;
         }
 
-        .cases {
-          text-align: justify;
+        section#work > .cases {
+
           font-size: 1.5em;
+          line-height: 1.2em;
+          word-break:break-all;
+
         }
 
-        .cases a {
+        section#work > .cases a {
           color: yellow;
           font-family:Baskerville W01 Italic;
         }
 
-        section h1, section h2 {
-          margin: 0.5em 0;
-          font-size: 1.5em;
-          font-family: Avenir Next LT W01 Bold;
+        section#work > .cases a:hover {
+          color: #666;
+          font-family:Baskerville W01 Italic;
         }
 
         @media (max-width: 720px) {
-          .cols {
+          section > .cols {
             flex-direction: column;
           }
 
-          .cols > p {
+          section > .cols > p {
             width:100%;
             padding-left: 0em;
             padding-right: 0em;
           }
 
-          .cols > p:last-child {
-            margin-top: 0;
+          section > .cols > p:last-child {
+            margin-top: 1em;
           }
         }
       `}</style>
