@@ -13,7 +13,7 @@ export default ({url}) => (
 
     <section id="video">
       <div>
-        <Video src="/static/LdB.mp4" className="player"/>
+        <Video src="/static/imm.mp4" className="player"/>
       </div>
     </section>
 

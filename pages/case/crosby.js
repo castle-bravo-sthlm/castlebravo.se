@@ -13,14 +13,14 @@ export default ({url}) => (
 
     <section id="video">
       <div>
-        <Video src="/static/LdB.mp4" className="player"/>
+        <Video src="/static/crosby.mp4" className="player"/>
       </div>
     </section>
 
     <section>
       <h2>crosby.se</h2>
         <p>
-        Relying heavily on images and videos to present case studies Crosby Stockholm
+        Relying heavily on images and videos to present case studies, Crosby Stockholm
         wanted a way to convey the information in an accessible way but still have it visually attractive.<br/><br/>
 
         Using a custom grid to layout images and videos, we made it possible to

@@ -33,7 +33,7 @@ export default () => (
           <p>
             Internet is our business and passion and we do everything we can to contribute to it’s evolution.
             We’ll help you be unique within the digital sphere by performing R&D,
-            Prototyping of a product or idea or by making a finalized product as part of your offer.
+            Prototyping your idea or by making a finalized product as part of your offer.
           </p>
         </div>
       </section>
@@ -57,18 +57,18 @@ export default () => (
       <section id="people">
         <h2>WHO</h2>
         <p>
-          Andreas Karlsson - Technical Director & Digital Wizkid<br />
+          Andreas Karlsson - Technical Director<br />
           Creative web developer with over 20 Years experience of complex software
           and advanced web application development.
           Enjoy finding technical solutions to transform ideas into experiences and
           services for web and mobile platforms.
-          Driven by a sting passion and curiosity for both computer science and math,
+          Driven by a burning passion and curiosity for both computer science and math,
           constantly learning and experimenting with new ideas in side projects to improve
-          my current skills and daily workflow.
+          current skills and daily workflow.
         </p>
 
         <p>
-          André Lillvede - Fullstack Developer / System Architect & Devops Guru<br />
+          André Lillvede - Fullstack Developer<br />
           Software generalist that likes to build and run things of different kinds,
           websites, tools or homemade beer brewing systems are all game.
           André has extensive experience of working on different positions in all

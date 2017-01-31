@@ -13,7 +13,7 @@ export default ({url}) => (
 
     <section id="video">
       <div>
-        <Video src="/static/LdB.mp4" className="player"/>
+        <Video src="/static/boomers2.mp4" className="player"/>
       </div>
     </section>
 
@@ -31,14 +31,14 @@ export default ({url}) => (
           <a href="">Powered by Automation</a>
         </p>
         <p>
-          The goal was to for the interested to easily get
+          The goal was to make it easy for the interested to get
           in contact with the mining division and to educate the target group in
           a more accessible manner than the traditional pdf (though a pdf was also
           available for the more conservative via a download form).
         </p>
         <p>
           We created a stringent devops strategy to make sure development and
-          deployment was as  efficient and easy as possible and combined with a
+          deployment was as efficient and easy as possible and combined with a
           modular approach to writing code made the creation and rollout of each
           new site a piece of cake.
         </p>
@@ -55,6 +55,6 @@ export default ({url}) => (
     </section>
 
     <Share pathname={url.pathname} title="MineQuest"/>
-    
+
   </Case>
 )

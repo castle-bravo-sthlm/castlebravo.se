@@ -13,7 +13,7 @@ export default ({url}) => (
 
     <section id="video">
       <div>
-        <Video src="/static/ConcreteAccuracy.mp4" className="player"/>
+        <Video src="/static/concreteaccuracy.mp4" className="player"/>
       </div>
     </section>
 
@@ -21,7 +21,7 @@ export default ({url}) => (
       <h1>Concrete Accuracy</h1>
       <div className="cols">
         <p>
-          To promote their new tunnel securing machine Meyco ME5 at trade shows around the globe,
+          To promote the Meyco ME5 at trade shows around the globe,
           Atlas Copco wanted something special. So together with Graviz we made this little game,
           complete with a stressful version of Edward Griegs “In the Hall of the Mountain King” and
           a prop looking like the nozzle of the Meyco ME5.
