@@ -12,7 +12,7 @@ export default () => (
   <HeadSlide width={60} minWidth={550} head={(
     <section style={{position:'relative', width: 'calc(40vw - 2em)', minWidth:'calc(0.4 * 550px)', maxWidth:'600px', margin:'2em auto 0 auto' }}>
         <div style={{position:'relative', paddingTop:100/1.5+'%', backgroundColor:'#162931' }}>
-          <Video style={{position:'absolute', top:'-15px', left:'-15px', width:'100%',height:'100%'}}/>
+          <Video style={{position:'absolute', top:'-15px', left:'-15px', width:'100%',height:'100%'}} width="768" height="512"/>
         </div>
     </section>
   )}>

@@ -13,7 +13,7 @@ export default ({url}) => (
 
     <section id="video">
       <div>
-        <Video src="/static/ldb.mp4" className="player"/>
+        <Video width="768" height="512" src="/static/ldb.mp4" className="player"/>
       </div>
     </section>
 

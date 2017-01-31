@@ -8,8 +8,8 @@ export class Video extends React.Component {
   componentDidMount() {
     //console.log('initCanvas')
     const canvas = this.refs.canvas;
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
+    // canvas.width = canvas.offsetWidth;
+    // canvas.height = canvas.offsetHeight;
 
     this._ctrl = startRegl(canvas);
 
@@ -27,8 +27,8 @@ export class Video extends React.Component {
   componentDidUpdate() {
     //console.log('after update');
     const canvas = this.refs.canvas;
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
+    // canvas.width = canvas.offsetWidth;
+    // canvas.height = canvas.offsetHeight;
     this._ctrl.load(this.props.src);
   }
 

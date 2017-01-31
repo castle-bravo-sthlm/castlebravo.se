@@ -28,7 +28,7 @@ export default class AtlasCopcoProducts extends Component {
 
         <section id="video">
           <div>
-            <Video src={this.state.video} className="player"/>
+            <Video width="768" height="512" src={this.state.video} className="player"/>
           </div>
         </section>
 
