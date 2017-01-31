@@ -2,20 +2,19 @@ import Head from 'next/head';
 import React from 'react';
 import Link from 'next/prefetch'
 
-import { Video } from '../components/video';
 import HeadSlide from '../components/headslide';
 
+import Ldb from './case/ldb';
 
 // videos are 768*512
 
-export default () => (
-  <HeadSlide width={60} minWidth={550} head={(
-    <section style={{position:'relative', width: 'calc(40vw - 2em)', minWidth:'calc(0.4 * 550px)', maxWidth:'600px', margin:'2em auto 0 auto' }}>
-        <div style={{position:'relative', paddingTop:100/1.5+'%', backgroundColor:'#162931' }}>
-          <Video style={{position:'absolute', top:'-15px', left:'-15px', width:'100%',height:'100%'}} width="768" height="512"/>
-        </div>
-    </section>
-  )}>
+
+export default ({url}) => {
+
+  console.log('url', url);
+  return (
+
+  <HeadSlide width={60} minWidth={550} case={<div><Ldb url={url} /></div>}  >
     <div className="root">
       <Head>
         <title>Castle Bravo</title>
@@ -40,7 +39,7 @@ export default () => (
 
       <section id="work">
         <p className="cases">
-          WITH TBWA STOCKHOLM WE DID <Link href="/case/ldb"><a>A BROWSER POSTCARD EDITOR</a></Link> AND
+          WITH TBWA STOCKHOLM WE DID <a onClick={e => { console.log('click') }}>A BROWSER POSTCARD EDITOR</a> AND
           FOR ATLAS COPCO WE MADE <Link href="/case/atlas_copco_products"><a>MULTIPLE PRODUCT PAGES</a></Link>.
           TOGETHER WITH GRAVIZ WE CREATED A <Link href="/case/concrete_accuracy"><a>DUAL SCREEN GAME</a></Link>
           &nbsp;AND WE MADE THIS <Link href="/case/minequest"><a>QUIZ</a></Link> TO UNITE ATLAS COPCO.
@@ -176,4 +175,4 @@ export default () => (
 
     </div>
   </HeadSlide>
-)
+)}

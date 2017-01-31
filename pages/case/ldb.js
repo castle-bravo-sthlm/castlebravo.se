@@ -11,12 +11,6 @@ export default ({url}) => (
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
 
-    <section id="video">
-      <div>
-        <Video width="768" height="512" src="/static/ldb.mp4" className="player"/>
-      </div>
-    </section>
-
     <section>
       <h2>Greetings from paradise</h2>
       <div className="cols">

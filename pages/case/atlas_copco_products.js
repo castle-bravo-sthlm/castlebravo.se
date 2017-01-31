@@ -26,12 +26,6 @@ export default class AtlasCopcoProducts extends Component {
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         </Head>
 
-        <section id="video">
-          <div>
-            <Video width="768" height="512" src={this.state.video} className="player"/>
-          </div>
-        </section>
-
         <section>
           <h2>Atlas Copco Products</h2>
             <p>

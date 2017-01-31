@@ -1,4 +1,5 @@
 import React from 'react';
+import Video from './video';
 
 function lerp(start, end, ratio) {
   return start + ratio*(end-start);
@@ -17,7 +18,7 @@ export default class HeadSlide extends React.Component {
   static propTypes = {
     width: React.PropTypes.number,
     minWidth: React.PropTypes.number,
-    head: React.PropTypes.element.isRequired
+    case: React.PropTypes.element
   }
   static defaultProps = {
     width: 60,
@@ -53,8 +54,15 @@ export default class HeadSlide extends React.Component {
     const margin = (100 - width)/2;
     return (
       <div ref="wrapper" style={{position:'relative', overflow: 'hidden' }}>
-        <div ref="head" style={{position:'fixed', zIndex:1 }}>{head}</div>
-        <div ref="content" style={{position:'fixed' }}>{children}</div>
+        <div ref="head" style={{position:'fixed', zIndex:1, transition:'left 1s' }}>
+          <section style={{position:'relative', width: 'calc(40vw - 2em)', minWidth:'calc(0.4 * 550px)', maxWidth:'600px', margin:'2em auto 0 auto' }}>
+              <div style={{position:'relative', paddingTop:100/1.5+'%', backgroundColor:'#162931' }}>
+                <Video style={{position:'absolute', top:'-15px', left:'-15px', width:'100%',height:'100%'}} width="768" height="512"/>
+              </div>
+          </section>
+        </div>
+        <div ref="content" style={{position:'fixed', transition:'left 1s' }}>{children}</div>
+        <div ref="case" style={{position:'fixed', left:(this.props.case ? 0 : 100)+'vw', transition:'left 1s', color:'white' }}>{this.props.case}</div>
       </div>
     )
   }
@@ -64,6 +72,7 @@ export default class HeadSlide extends React.Component {
     //this.updateScroll();
     window.addEventListener('resize', this.updateSize);
     window.addEventListener('scroll', this.updateSize);
+
   }
 
   componentWillUnmount() {

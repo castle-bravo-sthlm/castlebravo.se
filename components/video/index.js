@@ -3,7 +3,7 @@ import glsl from 'glslify';
 import React from 'react';
 import mime from 'browserify-mime';
 
-export class Video extends React.Component {
+export default class Video extends React.Component {
 
   componentDidMount() {
     //console.log('initCanvas')
@@ -29,7 +29,7 @@ export class Video extends React.Component {
     const canvas = this.refs.canvas;
     // canvas.width = canvas.offsetWidth;
     // canvas.height = canvas.offsetHeight;
-    this._ctrl.load(this.props.src);
+    this._ctrl.load(this.props.src  || '/static/logo.jpeg');
   }
 
   componentWillUnmount() {
