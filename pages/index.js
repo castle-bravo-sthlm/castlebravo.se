@@ -90,15 +90,16 @@ export default () => (
         <p>
           New business:<br />
           + 46 (0) 8 522 050 40<br />
-          johan.lovblad@castlebravo.se<br /><br />
-
+          johan.lovblad@castlebravo.se<br />
+          <br />
           General questions:<br />
-          hello@castlebravo.se
-          <br /><br />
-
+          hello@castlebravo.se<br />
+          <br />
           Visit us at:<br />
           Tomtebogatan 5 SE-113 39 Stockholm<br />
-
+          <br />
+          Follow us:<br />
+          <a href="https://www.facebook.com/castlebravosthlm/">Facebook</a>, <a href="https://www.linkedin.com/company/castle-bravo">Linkedin</a>, <a href="https://twitter.com/CB_STHLM">Twitter</a>, <a href="https://www.instagram.com/castlebravosthlm/">Instagram</a>, <a href="https://github.com/castle-bravo-sthlm">Github</a>
         </p>
       </section>
 
