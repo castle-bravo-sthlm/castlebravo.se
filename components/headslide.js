@@ -30,31 +30,50 @@ export default class HeadSlide extends React.Component {
   }
 
   updateSize = debounceRaf(() => {
-    const { wrapper, head, content } = this.refs;
-    content.style.paddingTop = head.offsetHeight + 'px';
-    wrapper.style.height = content.offsetHeight + this._extraHeight + 'px';
+    const { wrapper, head, left, right } = this.refs;
+    left.style.paddingTop = right.style.paddingTop = head.offsetHeight + 'px';
+    wrapper.style.height = (this.props.right ? right : left).offsetHeight + this._extraHeight + 'px';
     this.updateScroll();
   })
   updateScroll = debounceRaf(() => {
     const offset = Math.max(0, document.body.scrollTop - this._extraHeight);
     const tweenRatio = this._extraHeight ? Math.min(1, document.body.scrollTop/this._extraHeight) : 0;
-    const { width, sideWidth } = this.props;
     //console.log(width, sideWidth, endSpacing, width+sideWidth+3*endSpacing)
 
-    this.refs.head.style.marginLeft = lerp(0, width, tweenRatio)+'%';
-    this.refs.head.style.width = lerp(100, 100-width, tweenRatio)+'%';
-    //this.refs.content.style.marginLeft = lerp((100-width)/2, endSpacing, tweenRatio)+'%';
-    this.refs.content.style.width = lerp(100, width, tweenRatio)+'%';
-    this.refs.content.style.top = -offset+'px';
+    const { head, left, right} = this.refs;
+
+    const width = lerp(100, this.props.width, tweenRatio);
+    const sideWidth = lerp(100, 100-this.props.width, tweenRatio);
+
+    head.style.width = sideWidth + '%';
+    left.style.width = right.style.width = width + '%'
+
+    console.log(this.props.right ? 'right' : 'left')
+    if(this.props.right) {
+      head.style.left = '0%';
+      left.style.left = -width + '%';
+      right.style.left = 100-width + '%';
+
+      right.style.top = -offset+'px';
+    } else {
+      head.style.left = 100 - sideWidth + '%';
+
+      left.style.left = '0%';
+      right.style.left = '100%';
+
+      left.style.top = -offset+'px';
+    }
+    this.refs.wrapper.style.visibility = 'visible';
   })
 
   render() {
-    const { width, head, children } = this.props;
+    const { width, head, children, right } = this.props;
     const margin = (100 - width)/2;
     return (
-      <div ref="wrapper" style={{position:'relative', overflow: 'hidden' }}>
-        <div ref="head" style={{position:'fixed', zIndex:1 }}>{head}</div>
-        <div ref="content" style={{position:'fixed' }}>{children}</div>
+      <div ref="wrapper" style={{position:'relative', overflow: 'hidden', visibility:'hidden' }}>
+        <div ref="head" style={{position:'fixed', overflow:'hidden', transition:'left 1s', background:'red', zIndex:1 }}>{head}</div>
+        <div ref="left" style={{position:'fixed', overflow:'hidden', transition:'left 1s', background:'green' }}>{children}</div>
+        <div ref="right" style={{position:'fixed', overflow:'hidden', transition:'left 1s', background:'blue' }}>{right}</div>
       </div>
     )
   }
@@ -64,6 +83,10 @@ export default class HeadSlide extends React.Component {
     //this.updateScroll();
     window.addEventListener('resize', this.updateSize);
     window.addEventListener('scroll', this.updateSize);
+  }
+
+  componentDidUpdate() {
+    this.updateSize();
   }
 
   componentWillUnmount() {

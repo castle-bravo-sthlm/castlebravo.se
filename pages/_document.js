@@ -55,6 +55,7 @@ export default class CBDocument extends Document {
            `}
          </style>
          <link type="text/css" rel="stylesheet" href="//fast.fonts.net/cssapi/3c9a48eb-44bb-48fd-a161-dffbfb189b99.css"/>
+         <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
        </Head>
        <body>
          <Main />
