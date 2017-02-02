@@ -32,6 +32,11 @@ export default class CBDocument extends Document {
                line-height: 1.2em;
              }
 
+             a {
+               color:inherit;
+               text-decoration:inherit;
+             }
+
              @media (min-width: 800px){
                body {
                  font-size: 2vw;

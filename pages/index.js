@@ -104,7 +104,7 @@ export default () => (
 
       <footer>
          <div className="logo"><img src="/static/logo.svg" /></div>
-         Tomtebogatan 5 | 113 39 STOCKHOLM | +46 8 52 20 50 00 | hello@castlebravo.se
+         Tomtebogatan 5 | 113 39 STOCKHOLM | +46 8 52 20 50 00 | <a href="mailto:hello@castlebravo.se">hello@castlebravo.se</a>
        </footer>
 
       <style jsx>{`
@@ -153,12 +153,12 @@ export default () => (
 
         section#work > .cases a[href^="/"] {
           color: yellow;
+          text-decoration:underline;
           font-family:Baskerville W01 Italic;
         }
 
         section#work > .cases a[href^="http"] {
           color: #cd7081;
-          text-decoration:none;
         }
 
         section#work > .cases a:hover {
