@@ -47,18 +47,6 @@ export default class CBDocument extends Document {
                box-sizing:border-box;
              }
 
-             footer {
-               font-size: 0.6em;
-               text-align: center;
-               margin-top: 4em;
-               margin-bottom: 0.5em;
-               color: white;
-             }
-
-             .logo img {
-               width: 6em;
-             }
-
            `}
          </style>
          <link type="text/css" rel="stylesheet" href="//fast.fonts.net/cssapi/3c9a48eb-44bb-48fd-a161-dffbfb189b99.css"/>
@@ -66,10 +54,6 @@ export default class CBDocument extends Document {
        <body>
          <Main />
          <NextScript />
-         <footer>
-            <div className="logo"><img src="/static/logo.svg" /></div>
-            Tomtebogatan 5 | 113 39 STOCKHOLM | +46 8 52 20 50 00 | hello@castlebravo.se
-          </footer>
        </body>
      </html>
     )

@@ -40,12 +40,12 @@ export default () => (
 
       <section id="work">
         <p className="cases">
-          WITH TBWA STOCKHOLM WE DID <Link href="/case/ldb"><a>A BROWSER POSTCARD EDITOR</a></Link> AND
-          FOR ATLAS COPCO WE MADE <Link href="/case/atlas_copco_products"><a>MULTIPLE PRODUCT PAGES</a></Link>.
-          TOGETHER WITH GRAVIZ WE CREATED A <Link href="/case/concrete_accuracy"><a>DUAL SCREEN GAME</a></Link>
-          &nbsp;AND WE MADE THIS <Link href="/case/minequest"><a>QUIZ</a></Link> TO UNITE ATLAS COPCO.
-          WE HELPED CROSBY STHLM SHARE THEIR WORK WITH A <Link href="/case/crosby"><a>NEW SITE</a></Link>
-          &nbsp;AND WE PRESENTED <Link href="/case/ideas_move_mountains"><a>SIX STORIES</a></Link> FOR ATLAS COPCO’S IDEAS MOVE MOUNTAINS
+          WITH <a href="http://">TBWA</a> STOCKHOLM WE DID <Link href="/case/ldb"><a>A BROWSER POSTCARD EDITOR</a></Link> AND
+          FOR <a href="http://">ATLAS COPCO</a> WE MADE <Link href="/case/atlas_copco_products"><a>MULTIPLE PRODUCT PAGES</a></Link>.
+          TOGETHER WITH <a href="http://">GRAVIZ</a> WE CREATED A <Link href="/case/concrete_accuracy"><a>DUAL SCREEN GAME</a></Link>
+          &nbsp;AND WE MADE THIS <Link href="/case/minequest"><a>QUIZ</a></Link> TO UNITE <a href="http://">ATLAS COPCO</a>.
+          WE HELPED <a href="http://">CROSBY STHLM</a> SHARE THEIR WORK WITH A <Link href="/case/crosby"><a>NEW SITE</a></Link>
+          &nbsp;AND WE PRESENTED <Link href="/case/ideas_move_mountains"><a>SIX STORIES</a></Link> FOR <a href="http://">ATLAS COPCO’S</a> IDEAS MOVE MOUNTAINS
         </p>
 
         <p>
@@ -102,6 +102,11 @@ export default () => (
         </p>
       </section>
 
+      <footer>
+         <div className="logo"><img src="/static/logo.svg" /></div>
+         Tomtebogatan 5 | 113 39 STOCKHOLM | +46 8 52 20 50 00 | hello@castlebravo.se
+       </footer>
+
       <style jsx>{`
         div.root {
           display: flex;
@@ -146,14 +151,30 @@ export default () => (
 
         }
 
-        section#work > .cases a {
+        section#work > .cases a[href^="/"] {
           color: yellow;
           font-family:Baskerville W01 Italic;
         }
 
+        section#work > .cases a[href^="http"] {
+          color: #cd7081;
+          text-decoration:none;
+        }
+
         section#work > .cases a:hover {
           color: #666;
-          font-family:Baskerville W01 Italic;
+        }
+
+        footer {
+          font-size: 0.6em;
+          text-align: center;
+          margin-top: 4em;
+          margin-bottom: 0.5em;
+          color: white;
+        }
+
+        footer .logo img {
+          width: 6em;
         }
 
         @media (max-width: 720px) {
