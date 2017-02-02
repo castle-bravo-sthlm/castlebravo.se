@@ -48,9 +48,9 @@ export default () => (
           &nbsp;AND WE PRESENTED <Link href="/case/ideas_move_mountains"><a>SIX STORIES</a></Link> FOR <a href="http://">ATLAS COPCO’S</a> IDEAS MOVE MOUNTAINS
         </p>
 
-        <p>
-          And we enjoy our friends at and being part of Mason Bower Group.
-          Number10, Graviz, Crosby, Mason Bower, deBroome, Omnilux
+        <p className="friends">
+          And we enjoy our friends at and being part of <a href="http://masonbower.com/">Mason Bower Group</a>.
+          &nbsp;<a href="http://www.number10.se/">Number10</a>, <a href="http://www.graviz.se/">Graviz</a>, <a href="http://www.crosby.se/">Crosby</a>, <a href="http://debroome.com/">deBroome</a>, <a href="http://www.omnilux.se/">Omnilux</a>
         </p>
       </section>
 
@@ -151,17 +151,17 @@ export default () => (
 
         }
 
-        section#work > .cases a[href^="/"] {
+        section#work a[href^="/"] {
           color: yellow;
           text-decoration:underline;
           font-family:Baskerville W01 Italic;
         }
 
-        section#work > .cases a[href^="http"] {
+        section#work a[href^="http"] {
           color: #cd7081;
         }
 
-        section#work > .cases a:hover {
+        section#work a:hover {
           color: #666;
         }
 
