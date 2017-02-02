@@ -23,10 +23,10 @@ export default () => (
       </Head>
 
       <section id="intro">
-        <h2>We are an innovation and creative technology bureau.</h2>
+        <h2>An innovation and creative technology bureau.</h2>
         <div className="cols">
           <p>
-            With backgrounds in computer science, mathematics,
+            From a background of computer science, mathematics,
             complex software development, advertising and communication we know the backbone,
             the main ingredients of today’s society, ones and zeros.
           </p>
@@ -114,7 +114,6 @@ export default () => (
         section {
           //width: 100%;
           margin-bottom: 2em;
-          font-family: Baskerville W01 Regular_705699;
         }
 
         section > .cols {

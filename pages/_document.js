@@ -17,11 +17,21 @@ export default class CBDocument extends Document {
              }
 
              body {
+               font-family: Baskerville W01 Regular_705699;
                background-color: #1a1a1a;
                margin: 0;
                font-size: 16px;
                line-height: 1.2em;
+               text-shadow: #162931 2px 2px 0;
              }
+
+             h1, h2 {
+               font-family: Avenir Next LT W01 Bold;
+               margin: 0.5em 0;
+               font-size: 1.5em;
+               line-height: 1.2em;
+             }
+
              @media (min-width: 800px){
                body {
                  font-size: 2vw;
@@ -49,12 +59,6 @@ export default class CBDocument extends Document {
                width: 6em;
              }
 
-             h1, h2 {
-               margin: 0.5em 0;
-               font-size: 1.5em;
-               line-height: 1.2em;
-               font-family: Avenir Next LT W01 Bold;
-             }
            `}
          </style>
          <link type="text/css" rel="stylesheet" href="//fast.fonts.net/cssapi/3c9a48eb-44bb-48fd-a161-dffbfb189b99.css"/>

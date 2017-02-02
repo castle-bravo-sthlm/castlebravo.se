@@ -12,7 +12,6 @@ export default ({children, ...rest}) => (
         section {
           width: 60vw;
           margin-bottom: 2em;
-          font-family: Baskerville W01 Regular_705699;
         }
 
         section#video > div {
