@@ -2,7 +2,7 @@ export default ({children, ...rest}) => (
     <div className="case">
       {children}
 
-      <style jsx global>{`
+      <style jsx global >{`
         div.case {
           display: flex;
           color: white;
@@ -10,7 +10,7 @@ export default ({children, ...rest}) => (
           align-items: center;
         }
         section {
-          width: 60vw;
+          //width: 60vw;
           margin-bottom: 2em;
         }
 

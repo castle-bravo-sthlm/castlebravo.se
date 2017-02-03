@@ -5,7 +5,7 @@ import Footer from '../../components/footer';
 import Share from '../../components/share';
 
 export default ({url}) => (
-  <Case>
+  <div>
     <Head>
       <title>Castle Bravo - Crosby Stockholm</title>
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -33,5 +33,5 @@ export default ({url}) => (
 
     <Share pathname={url.pathname} title="crosby.se"/>
 
-  </Case>
+  </div>
 )
