@@ -23,17 +23,16 @@ export default () => (
       </Head>
 
       <section id="intro">
-        <h2>An innovation and creative technology bureau.</h2>
+        <h1>Innovation and creative technology bureau.</h1>
         <div className="cols">
           <p>
-            From a background of computer science, mathematics,
-            complex software development, advertising and communication we know the backbone,
-            the main ingredients of today’s society, ones and zeros.
+            With background in computer science, mathematics, complex software development,
+            advertising and communication we know the backbone, the main ingredients of today’s society, ones and zeros.
           </p>
           <p>
-            Internet is our business and passion and we do everything we can to contribute to it’s evolution.
-            We’ll help you be unique within the digital sphere by performing R&D,
-            Prototyping your idea or by making a finalized product as part of your offer.
+            Internet is our business, our passion and we do everything we can to contribute to it’s evolution.
+            We’ll help you be unique within the digital sphere by performing R&D, Prototyping of a product,
+            idea or by making a finalized product as part of your offer.
           </p>
         </div>
       </section>
@@ -52,6 +51,71 @@ export default () => (
           And we enjoy our friends at and being part of <a href="http://masonbower.com/">Mason Bower Group</a>.
           &nbsp;<a href="http://www.number10.se/">Number10</a>, <a href="http://www.graviz.se/">Graviz</a>, <a href="http://www.crosby.se/">Crosby</a>, <a href="http://debroome.com/">deBroome</a>, <a href="http://www.omnilux.se/">Omnilux</a>
         </p>
+      </section>
+
+      <section id="vision">
+        <h2>Vision</h2>
+        <div className="cols">
+        <p>
+          Creating digital awareness today has become more and more like using building blocks.
+          In the toolbox there’s lots of different pieces to choose from.
+          Mixing and combining different parts will permit a fast pace in creating new services and solutions.
+        </p>
+
+        <p>
+          We see the importance in getting something small out fast, to start evaluating.
+          Early releases, evaluation, redevelop and updating will give a better outcome.
+          You can call it an agile or lean development way of working but of course, in the end,
+          it’s about making the project more time and budget efficient.
+        </p>
+        </div>
+      </section>
+
+      <section id="process">
+        <h2>Process</h2>
+        <div className="cols">
+        <p>
+          We work in small iterations. An iteration will produce something useful to evaluate so
+          we can keep the best direction. The evaluation will tell if a project is to be considered
+          done or if it should take a whole other direction.
+        </p>
+
+        <p>
+          An iteration is probably a week, an hour or a day is often too short to be able
+          to fit something useful within so a week is more likely to present a result worthy evaluation.
+          Therefore we quote on what’s possible within a iteration and take in consideration
+          a team with the ultimate skill set for the task.
+        </p>
+        </div>
+      </section>
+
+      <section id="services">
+        <h2>Taking care of the whole picture</h2>
+        <p>
+          We have a firm belief in DevOps and we use practises such as continuous delivery
+          integrated with version control so we preferably like to be in charge of hosting and deployment.
+          This gives us the possibility to fine tune and ensure high availability of what we have produced
+          and also has the upside that updates and fixes can be released fast and without disruption.
+        </p>
+        <p>
+          We have our own hardware located in Stockholm but are also able to host projects all over the
+          world using various cloud providers (Amazon Web Services, Google Cloud Platform, etc ) depending on
+          the need for speed and availability.
+        </p>
+
+        <p>
+          We are developers and we trust the power of the browser. We create web-applications.
+          We preferably send data through wire rather than in HTML. We prefer to work in Javascript.
+        </p>
+
+        <p>
+          We’ll create games, tracking solutions, services, websites, installations. We’ll perform R&D,
+          to help you see possibilities. We can be your innovative partner and sound board in technicalities.
+          We’ll develop a proof of concept, call it a prototype if you want. Use it to make sure an
+          idea  will fly or to show potential investors or clients. We’ll finalize the development
+          to a finished product or service. Full stack development.
+        </p>
+
       </section>
 
       <section id="people">
@@ -89,12 +153,26 @@ export default () => (
         <h2>CONTACT</h2>
         <p>
           New business:<br />
+          Johan Lövblad<br />
+          Executive producer<br />
           + 46 (0) 8 522 050 40<br />
           johan.lovblad@castlebravo.se<br />
           <br />
+
+          Andreas Karlsson<br />
+          Technical director<br />
+          +46 (0) 8 522 50 56<br />
+          johan.lovblad@castlebravo.se<br /><br />
+
+          André Lillvede<br />
+          Fullstack developer<br />
+          +46 (0) 8 522 50 67<br />
+          johan.lovblad@castlebravo.se<br /><br />
+
           General questions:<br />
           hello@castlebravo.se<br />
           <br />
+
           Visit us at:<br />
           Tomtebogatan 5 SE-113 39 Stockholm<br />
           <br />
@@ -116,6 +194,15 @@ export default () => (
           max-width:800px;
           margin: 0 auto;
           padding:1em;
+        }
+        ul {
+          list-style: none;
+          margin:0;
+          padding:0;
+          font-family: Avenir Next LT W01 Bold;
+        }
+        li:not(:last-child) {
+          margin-bottom: 1em;
         }
         section {
           //width: 100%;
