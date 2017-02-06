@@ -29,7 +29,9 @@ export class Video extends React.Component {
     const canvas = this.refs.canvas;
     // canvas.width = canvas.offsetWidth;
     // canvas.height = canvas.offsetHeight;
-    this._ctrl.load(this.props.src || '/static/logo.jpeg');
+    let src = this.props.src || '/static/logo.jpeg';
+    if(this._ctrl.src != src)
+    this._ctrl.load(src);
   }
 
   componentWillUnmount() {
