@@ -162,12 +162,12 @@ export default () => (
           Andreas Karlsson<br />
           Technical director<br />
           +46 (0) 8 522 50 56<br />
-          johan.lovblad@castlebravo.se<br /><br />
+          andreas.karlsson@castlebravo.se<br /><br />
 
           André Lillvede<br />
           Fullstack developer<br />
           +46 (0) 8 522 50 67<br />
-          johan.lovblad@castlebravo.se<br /><br />
+          andre.lillvede@castlebravo.se<br /><br />
 
           General questions:<br />
           hello@castlebravo.se<br />
