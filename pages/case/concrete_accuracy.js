@@ -1,11 +1,11 @@
 import Head from 'next/head';
 import { Video } from '../../components/video';
-import Case from '../../components/case';
+
 import Footer from '../../components/footer';
 import Share from '../../components/share';
 
 export default ({url}) => (
-  <Case>
+  <div className="case">
     <Head>
       <title>Castle Bravo - Concrete Accuracy</title>
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -48,5 +48,5 @@ export default ({url}) => (
 
     <Share pathname={url.pathname} title="MineQuest"/>
 
-  </Case>
+  </div>
 )

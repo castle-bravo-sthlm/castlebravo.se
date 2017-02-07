@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { Video } from '../../components/video';
-import Case from '../../components/case';
+
 import Footer from '../../components/footer';
 import Share from '../../components/share';
 import {Component} from 'react';
@@ -20,7 +20,7 @@ export default class AtlasCopcoProducts extends Component {
   }
   render() {
     return (
-      <Case>
+      <div className="case">
         <Head>
           <title>Castle Bravo - MineQuest</title>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -71,7 +71,7 @@ export default class AtlasCopcoProducts extends Component {
 
         <Share pathname={this.props.url.pathname} title="MineQuest"/>
 
-      </Case>
+      </div>
     )
   }
 }

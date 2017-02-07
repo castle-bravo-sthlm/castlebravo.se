@@ -1,11 +1,11 @@
 import Head from 'next/head';
 import { Video } from '../../components/video';
-import Case from '../../components/case';
+
 import Footer from '../../components/footer';
 import Share from '../../components/share';
 
 export default ({url}) => (
-  <Case>
+  <div className="case">
     <Head>
       <title>Castle Bravo - Greetings from paradise</title>
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -42,5 +42,5 @@ export default ({url}) => (
     </section>
 
     <Share pathname={url.pathname} title="Greetings from paradise"/>
-  </Case>
+  </div>
 )
