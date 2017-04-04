@@ -14,7 +14,7 @@ document.body.appendChild(h('div#content',
       h('a', 'hello@castlebravo.se', {href:'mailto:hello@castlebravo.se'})
     ),
     h('p',
-      h('a', '+46 73 901 50 40', {href:'tel:+46 73 901 50 40'} )
+      h('a', '+46 08 522 050 40', {href:'tel:+46 08 522 050 40'} )
     ),
     h('p', 'Tomtebogatan 5 – 113 39  Stockholm, Sweden'),
     h('p',
